@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.sqlite3
+*.log
+
+# Environment
+.env
+*.env
+
+# Virtualenv
+.venv/
+venv/
+ENV/
+
+# Django
+*.db
+*.pot
+*.pyc
+db.sqlite3
+/media/
+staticfiles/
+*.mo
+
+# VSCode / IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Migrations (опционально, если не хочешь коммитить их сразу)
+**/migrations/__pycache__/
+**/migrations/*.pyc
+**/migrations/*.pyo
+**/migrations/*.pyd
+**/migrations/*.log
+
+# Docker
+*.pid
+docker/postgres/data/
+__pycache__/
