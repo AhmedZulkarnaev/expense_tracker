@@ -9,5 +9,6 @@ class RegisterView(generics.CreateAPIView):
     """
     Эндпоинт регистрации нового пользователя.
     """
+
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
