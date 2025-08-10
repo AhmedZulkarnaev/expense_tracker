@@ -6,7 +6,6 @@ from .filters import ExpenseFilter
 from expenses.services.exporters import export_expenses_csv
 
 
-
 class ExportExpensesCSVView(APIView):
     """Экспорт расходов/доходов в CSV с теми же фильтрами, что в списке."""
 

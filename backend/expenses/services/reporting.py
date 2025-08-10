@@ -1,6 +1,6 @@
 from django.db.models import Sum, Case, When, DecimalField, Value
 from django.db.models.functions import Coalesce
-from expenses.models import Expense, Category
+from expenses.models import Expense
 
 
 def _base_qs(user, date_from=None, date_to=None):
