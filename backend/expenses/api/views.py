@@ -3,7 +3,7 @@ from expenses.models import Category, Expense
 from .serializers import CategorySerializer, ExpenseSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
-from expense_tracker.backend.expenses.api.filters import ExpenseFilter
+from expenses.api.filters import ExpenseFilter
 
 
 class CategoryViewSet(viewsets.ModelViewSet):

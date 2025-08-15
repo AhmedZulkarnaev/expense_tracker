@@ -1,14 +1,14 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from api.views import (
+from .views import (
     CategoryViewSet,
     ExpenseViewSet,
 )
-from api.views_reports import (
+from .views_reports import (
     SummaryReportView,
     ByCategoryReportView,
 )
-from api.views_exports import ExportExpensesCSVView
+from .views_exports import ExportExpensesCSVView
 
 router = DefaultRouter()
 router.register(r"categories", CategoryViewSet, basename="category")
