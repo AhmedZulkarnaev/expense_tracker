@@ -28,6 +28,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "django_filters",
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
     # Local apps
     "users.apps.UsersConfig",
     "expenses.apps.ExpensesConfig",
@@ -116,7 +118,20 @@ REST_FRAMEWORK = {
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.OrderingFilter",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
+
+# ──────────────────────────────
+# мета-информация схемы
+# ──────────────────────────────
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Expense Tracker API",
+    "DESCRIPTION": "Учёт доходов/расходов: аутентификация, операции, отчёты и экспорт.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}
+
 
 # ──────────────────────────────
 # 🌍 Локализация и часовой пояс
