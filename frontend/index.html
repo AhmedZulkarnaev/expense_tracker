@@ -22,8 +22,8 @@
       <h2>Login</h2>
       <form id="login-form">
         <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" required />
+          <label for="email">Email</label>
+          <input type="email" id="email" required />
         </div>
         <div class="form-group">
           <label for="password">Password</label>
@@ -31,9 +31,31 @@
         </div>
         <button type="submit" class="btn-primary">Login</button>
       </form>
+      <p class="mt-sm">Don't have an account? <a href="register.html">Register</a></p>
     </section>
 
     <section id="app" class="hidden">
+      <section class="card">
+        <h2>Categories</h2>
+        <form id="category-form">
+          <div class="form-group">
+            <label for="category-name">Name</label>
+            <input type="text" id="category-name" required />
+          </div>
+          <button type="submit" class="btn-primary">Add Category</button>
+        </form>
+        <table id="categories-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
       <section class="card">
         <h2>Add Expense</h2>
         <form id="expense-form">
@@ -66,6 +88,35 @@
               <th>Amount</th>
               <th>Category</th>
               <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>Reports</h2>
+        <form id="report-form">
+          <div class="form-group">
+            <label for="report-from">From</label>
+            <input type="date" id="report-from" />
+          </div>
+          <div class="form-group">
+            <label for="report-to">To</label>
+            <input type="date" id="report-to" />
+          </div>
+          <button type="button" id="summary-btn" class="btn-primary">Summary</button>
+          <button type="button" id="by-category-btn" class="btn-primary">By Category</button>
+          <button type="button" id="export-btn">Export CSV</button>
+        </form>
+        <div id="summary-output" class="mt-sm"></div>
+        <table id="by-category-table" class="hidden mt-sm">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Income</th>
+              <th>Expense</th>
             </tr>
           </thead>
           <tbody></tbody>
