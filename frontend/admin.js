@@ -8,37 +8,9 @@ function showMessage(text, type = 'success') {
   setTimeout(() => box.classList.add('hidden'), 3000);
 }
 
-async function login(e) {
-  e.preventDefault();
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-
-  const response = await fetch(API_BASE + 'auth/token/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  });
-
-  if (response.ok) {
-    const data = await response.json();
-    localStorage.setItem('access', data.access);
-    document.getElementById('login-section').classList.add('hidden');
-    document.getElementById('app').classList.remove('hidden');
-    document.getElementById('logout').classList.remove('hidden');
-    await loadCategories();
-    await loadExpenses();
-    showMessage('Logged in', 'success');
-  } else {
-    showMessage('Login failed', 'error');
-  }
-}
-
 function logout() {
   localStorage.removeItem('access');
-  document.getElementById('app').classList.add('hidden');
-  document.getElementById('login-section').classList.remove('hidden');
-  document.getElementById('logout').classList.add('hidden');
-  showMessage('Logged out', 'success');
+  window.location.href = 'index.html';
 }
 
 async function loadCategories() {
@@ -223,57 +195,7 @@ async function deleteExpense(id) {
   }
 }
 
-function getReportParams() {
-  const params = new URLSearchParams();
-  const from = document.getElementById('report-from').value;
-  const to = document.getElementById('report-to').value;
-  if (from) params.append('date_from', from);
-  if (to) params.append('date_to', to);
-  const query = params.toString();
-  return query ? `?${query}` : '';
-}
-
-async function showSummary() {
-  const res = await fetch(API_BASE + 'reports/summary/' + getReportParams(), {
-    headers: { Authorization: `Bearer ${localStorage.getItem('access')}` },
-  });
-  if (res.ok) {
-    const data = await res.json();
-    document.getElementById('summary-output').textContent =
-      `Income: ${data.income_total}, Expense: ${data.expense_total}, Balance: ${data.balance}`;
-  } else {
-    showMessage('Failed to load summary', 'error');
-  }
-}
-
-async function showByCategory() {
-  const res = await fetch(API_BASE + 'reports/by-category/' + getReportParams(), {
-    headers: { Authorization: `Bearer ${localStorage.getItem('access')}` },
-  });
-  if (res.ok) {
-    const data = await res.json();
-    const table = document.getElementById('by-category-table');
-    const tbody = table.querySelector('tbody');
-    tbody.innerHTML = '';
-    data.forEach((row) => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${row.category}</td><td>${row.income}</td><td>${row.expense}</td>`;
-      tbody.appendChild(tr);
-    });
-    table.classList.remove('hidden');
-  } else {
-    showMessage('Failed to load report', 'error');
-  }
-}
-
-function exportCSV() {
-  const url = API_BASE + 'exports/expenses.csv' + getReportParams();
-  window.open(url, '_blank');
-}
-
-document.getElementById('login-form').addEventListener('submit', login);
 document.getElementById('expense-form').addEventListener('submit', addExpense);
-document.getElementById('logout').addEventListener('click', logout);
 document.getElementById('category-form').addEventListener('submit', addCategory);
 document.getElementById('categories-table').addEventListener('click', (e) => {
   if (e.target.classList.contains('edit-category')) {
@@ -291,14 +213,11 @@ document.getElementById('expenses-table').addEventListener('click', (e) => {
   }
 });
 
-document.getElementById('summary-btn').addEventListener('click', showSummary);
-document.getElementById('by-category-btn').addEventListener('click', showByCategory);
-document.getElementById('export-btn').addEventListener('click', exportCSV);
+document.getElementById('logout').addEventListener('click', logout);
 
-if (localStorage.getItem('access')) {
-  document.getElementById('login-section').classList.add('hidden');
-  document.getElementById('app').classList.remove('hidden');
-  document.getElementById('logout').classList.remove('hidden');
+if (!localStorage.getItem('access')) {
+  window.location.href = 'index.html';
+} else {
   loadCategories();
   loadExpenses();
 }
