@@ -1,4 +1,4 @@
-const API_BASE = '/api/';
+const API_BASE = 'http://localhost:8000/api/';
 
 function showMessage(text, type = 'success') {
   const box = document.getElementById('message');
@@ -26,11 +26,14 @@ async function register(e) {
   });
 
   if (response.ok) {
-    showMessage('Registration successful', 'success');
-    setTimeout(() => { window.location.href = 'index.html'; }, 1000);
-  } else {
-    showMessage('Registration failed', 'error');
-  }
+      showMessage('Registration successful', 'success');
+      setTimeout(() => { window.location.href = 'index.html'; }, 1000);
+    } else {
+      const data = await response.json().catch(() => ({}));
+      console.error("Server response:", data);
+      const msg = data?.detail || Object.entries(data).map(([k,v]) => `${k}: ${v}`).join('; ') || 'Registration failed';
+      showMessage(msg, 'error');
+    }
 }
 
 document.getElementById('register-form').addEventListener('submit', register);

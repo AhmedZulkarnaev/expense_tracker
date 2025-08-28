@@ -1,4 +1,4 @@
-const API_BASE = '/api/';
+const API_BASE = 'http://localhost:8000/api/';
 
 function showMessage(text, type = 'success') {
   const box = document.getElementById('message');

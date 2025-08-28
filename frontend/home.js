@@ -1,4 +1,4 @@
-const API_BASE = '/api/';
+const API_BASE = 'http://localhost:8000/api/';
 let categoryChart;
 
 function showMessage(text, type = 'success') {
@@ -133,9 +133,29 @@ function renderCategoryChart(data) {
   });
 }
 
-function exportCSV() {
+async function exportCSV() {
   const url = API_BASE + 'exports/expenses.csv' + getReportParams();
-  window.open(url, '_blank');
+  const token = localStorage.getItem('access');
+
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!response.ok) {
+    const text = await response.text().catch(() => '');
+    showMessage(`Export failed: ${response.status} ${text}`, 'error');
+    return;
+  }
+
+  const blob = await response.blob();
+  const downloadUrl = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = downloadUrl;
+  a.download = 'expenses.csv';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(downloadUrl);
 }
 
 document.getElementById('login-form').addEventListener('submit', login);

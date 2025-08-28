@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Third-party
+    "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt",
     "django_filters",
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
 # ──────────────────────────────
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -76,7 +78,16 @@ TEMPLATES = [
     },
 ]
 
-TEMPLATES[0]["DIRS"] = [BASE_DIR.parent / "frontend"]
+FRONTEND_DIR = BASE_DIR / "frontend"
+if not FRONTEND_DIR.exists():
+    FRONTEND_DIR = BASE_DIR.parent / "frontend"
+
+TEMPLATES[0]["DIRS"] = [FRONTEND_DIR]
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
 
 # ──────────────────────────────
 # 🗃️ База данных
@@ -149,7 +160,7 @@ USE_TZ = True
 # ──────────────────────────────
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR.parent / "frontend"]
+STATICFILES_DIRS = [FRONTEND_DIR]
 
 # ──────────────────────────────
 # 🔑 PK по умолчанию

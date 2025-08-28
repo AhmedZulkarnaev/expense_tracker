@@ -1,6 +1,9 @@
-from django.db.models import Sum, Case, When, DecimalField, Value
+from django.db.models import Sum, Q, DecimalField, Value
 from django.db.models.functions import Coalesce
 from expenses.models import Expense
+
+
+DECIMAL = DecimalField(max_digits=12, decimal_places=2)
 
 
 def _base_qs(user, date_from=None, date_to=None):
@@ -23,33 +26,21 @@ def get_summary(user, date_from=None, date_to=None):
     """
     qs = _base_qs(user, date_from, date_to)
 
-    income_total = qs.aggregate(
-        s=Coalesce(
-            Sum(
-                Case(
-                    When(is_income=True, then="amount"),
-                    default=Value(0),
-                    output_field=DecimalField(max_digits=10, decimal_places=2),
-                )
-            ),
-            Value(0),
-        )
-    )["s"]
+    agg = qs.aggregate(
+        income_total=Coalesce(
+            Sum("amount", filter=Q(is_income=True)),
+            Value(0, output_field=DECIMAL),
+        ),
+        expense_total=Coalesce(
+            Sum("amount", filter=Q(is_income=False)),
+            Value(0, output_field=DECIMAL),
+        ),
+    )
 
-    expense_total = qs.aggregate(
-        s=Coalesce(
-            Sum(
-                Case(
-                    When(is_income=False, then="amount"),
-                    default=Value(0),
-                    output_field=DecimalField(max_digits=10, decimal_places=2),
-                )
-            ),
-            Value(0),
-        )
-    )["s"]
-
+    income_total = agg["income_total"]
+    expense_total = agg["expense_total"]
     balance = income_total - expense_total
+
     return {
         "income_total": income_total,
         "expense_total": expense_total,
@@ -71,24 +62,12 @@ def get_by_category(user, date_from=None, date_to=None):
         qs.values("category_id", "category__name")
         .annotate(
             income=Coalesce(
-                Sum(
-                    Case(
-                        When(is_income=True, then="amount"),
-                        default=Value(0),
-                        output_field=DecimalField(max_digits=10, decimal_places=2),
-                    )
-                ),
-                Value(0),
+                Sum("amount", filter=Q(is_income=True)),
+                Value(0, output_field=DECIMAL),
             ),
             expense=Coalesce(
-                Sum(
-                    Case(
-                        When(is_income=False, then="amount"),
-                        default=Value(0),
-                        output_field=DecimalField(max_digits=10, decimal_places=2),
-                    )
-                ),
-                Value(0),
+                Sum("amount", filter=Q(is_income=False)),
+                Value(0, output_field=DECIMAL),
             ),
         )
         .order_by("category__name")

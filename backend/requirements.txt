@@ -5,3 +5,4 @@ psycopg2-binary==2.9.10
 django-filter==25.1
 python-decouple==3.8
 drf-spectacular[sidecar]==0.28.0
+django-cors-headers==4.7.0

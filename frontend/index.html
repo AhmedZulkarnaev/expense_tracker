@@ -1,21 +1,20 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Expense Tracker</title>
+  <title>Админка – Учёт расходов</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="{% static 'styles.css' %}" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="header">
-    <h1>Expense Tracker</h1>
+    <h1>Администрирование</h1>
     <nav>
-      <a id="admin-link" href="admin.html" class="hidden">Admin</a>
-      <button id="logout" class="hidden">Logout</button>
+      <a id="admin-link" href="admin.html" class="btn-primary">Администрирование</a>
+      <button id="logout" class="hidden">Выйти</button>
     </nav>
   </header>
 
@@ -23,31 +22,31 @@
     <div id="message" class="message hidden"></div>
 
     <section id="login-section" class="card">
-      <h2>Login</h2>
+      <h2>Войти</h2>
       <form id="login-form">
         <div class="form-group">
-          <label for="email">Email</label>
+          <label for="email">Электронная почта</label>
           <input type="email" id="email" required />
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password">Пароль</label>
           <input type="password" id="password" required />
         </div>
-        <button type="submit" class="btn-primary">Login</button>
+        <button type="submit" class="btn-primary">Войти</button>
       </form>
-      <p class="mt-sm">Don't have an account? <a href="register.html">Register</a></p>
+      <p class="mt-sm">Нет аккаунта? <a href="register.html">Зарегистрироваться</a></p>
     </section>
 
     <section id="app" class="hidden">
       <section class="card">
-        <h2>Expenses</h2>
+        <h2>Операции</h2>
         <table id="expenses-table">
           <thead>
             <tr>
-              <th>Description</th>
-              <th>Amount</th>
-              <th>Category</th>
-              <th>Date</th>
+              <th>Описание</th>
+              <th>Сумма</th>
+              <th>Категория</th>
+              <th>Дата</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -55,27 +54,27 @@
       </section>
 
       <section class="card">
-        <h2>Reports</h2>
+        <h2>Отчёты</h2>
         <form id="report-form">
           <div class="form-group">
-            <label for="report-from">From</label>
+            <label for="report-from">С даты</label>
             <input type="date" id="report-from" />
           </div>
           <div class="form-group">
-            <label for="report-to">To</label>
+            <label for="report-to">По дату</label>
             <input type="date" id="report-to" />
           </div>
-          <button type="button" id="summary-btn" class="btn-primary">Summary</button>
-          <button type="button" id="by-category-btn" class="btn-primary">By Category</button>
-          <button type="button" id="export-btn">Export CSV</button>
+          <button type="button" id="summary-btn" class="btn-primary">Сводка</button>
+          <button type="button" id="by-category-btn" class="btn-primary">По категориям</button>
+          <button type="button" id="export-btn">Экспорт CSV</button>
         </form>
         <div id="summary-output" class="mt-sm"></div>
         <table id="by-category-table" class="hidden mt-sm">
           <thead>
             <tr>
-              <th>Category</th>
-              <th>Income</th>
-              <th>Expense</th>
+              <th>Категория</th>
+              <th>Доход</th>
+              <th>Расход</th>
             </tr>
           </thead>
           <tbody></tbody>
