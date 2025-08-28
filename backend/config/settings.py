@@ -76,6 +76,8 @@ TEMPLATES = [
     },
 ]
 
+TEMPLATES[0]["DIRS"] = [BASE_DIR.parent / "frontend"]
+
 # ──────────────────────────────
 # 🗃️ База данных
 # ──────────────────────────────
@@ -147,6 +149,7 @@ USE_TZ = True
 # ──────────────────────────────
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR.parent / "frontend"]
 
 # ──────────────────────────────
 # 🔑 PK по умолчанию
