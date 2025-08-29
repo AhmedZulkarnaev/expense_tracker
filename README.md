@@ -58,7 +58,3 @@ python manage.py test
 - `backend/` – Django‑проект с REST API
 - `frontend/` – статический frontend на HTML/CSS/JS
 - `docker-compose.yml` – конфигурация Docker, связывающая Django, PostgreSQL и Nginx
-
-## Лицензия
-
-Проект предоставляется без указанной лицензии. Используйте его для обучения и экспериментов.
